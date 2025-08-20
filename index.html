@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Met Spotlight - The Metropolitan Museum's Digital Publication</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --met-red: #c41e3a;
+            --museum-black: #1a1a1a;
+            --warm-white: #fefefe;
+            --gallery-gray: #f8f8f8;
+            --deep-gray: #2d2d2d;
+            --light-gray: #f5f5f5;
+            --text-gray: #666666;
+            --border-light: #e0e0e0;
+            --accent-gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--museum-black);
+            background: var(--warm-white);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(254, 254, 254, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .met-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--met-red);
+            text-decoration: none;
+        }
+
+        .spotlight-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--museum-black);
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-menu a {
+            color: var(--museum-black);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--met-red);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -8px;
+            left: 0;
+            background: var(--met-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .visit-btn {
+            background: var(--met-red);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--met-red);
+        }
+
+        .visit-btn:hover {
+            background: var(--warm-white);
+            color: var(--met-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 0;
+            background: var(--warm-white);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            padding: 2rem 0;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--met-red);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--museum-black);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: var(--museum-black);
+            color: var(--warm-white);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--museum-black);
+        }
+
+        .hero-cta:hover {
+            background: var(--warm-white);
+            color: var(--museum-black);
+        }
+
+        .hero-image {
+            height: 600px;
+            background: var(--light-gray);
+            background-image: url('./images/met-exhibition-hero.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fallback for hero image if no image */
+        .hero-image.no-image {
+            background: linear-gradient(135deg, var(--met-red), var(--museum-black));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Current Exhibitions */
+        .current-exhibitions {
+            padding: 6rem 0;
+            background: var(--gallery-gray);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .section-header {
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--museum-black);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Exhibition Grid */
+        .exhibitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .exhibition-card {
+            background: var(--warm-white);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .exhibition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .exhibition-image {
+            height: 300px;
+            background: var(--text-gray);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background images for exhibitions */
+        .exhibition-image.van-gogh {
+            background-image: url('./images/van-gogh-exhibition.jpg');
+        }
+
+        .exhibition-image.african-art {
+            background-image: url('./images/african-art-exhibition.jpg');
+        }
+
+        .exhibition-image.textile-arts {
+            background-image: url('./images/textile-exhibition.jpg');
+        }
+
+        /* Fallback gradients for exhibition images */
+        .exhibition-image.van-gogh.no-image {
+            background: linear-gradient(135deg, #2d2d2d, #d4af37);
+        }
+
+        .exhibition-image.african-art.no-image {
+            background: linear-gradient(135deg, #c41e3a, #1a1a1a);
+        }
+
+        .exhibition-image.textile-arts.no-image {
+            background: linear-gradient(135deg, #666, #1a1a1a);
+        }
+
+        .exhibition-dates {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(196, 30, 58, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .exhibition-content {
+            padding: 2.5rem;
+        }
+
+        .exhibition-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--museum-black);
+        }
+
+        .exhibition-artist {
+            color: var(--met-red);
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .exhibition-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .exhibition-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .exhibition-wing {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        .exhibition-link {
+            display: inline-block;
+            color: var(--museum-black);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .exhibition-link:hover {
+            color: var(--met-red);
+        }
+
+        .exhibition-link::after {
+            content: ' →';
+            transition: transform 0.3s ease;
+        }
+
+        .exhibition-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Featured Artists */
+        .featured-artists {
+            padding: 6rem 0;
+            background: var(--warm-white);
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .artist-card {
+            background: var(--warm-white);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+        }
+
+        .artist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .artist-image {
+            height: 400px;
+            background: var(--text-gray);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background images for artists */
+        .artist-image.kerry-james-marshall {
+            background-image: url('./images/kerry-james-marshall.jpg');
+        }
+
+        .artist-image.yayoi-kusama {
+            background-image: url('./images/yayoi-kusama.jpg');
+        }
+
+        .artist-image.ai-weiwei {
+            background-image: url('./images/ai-weiwei.jpg');
+        }
+
+        .artist-image.kara-walker {
+            background-image: url('./images/kara-walker.jpg');
+        }
+
+        .artist-image.takashi-murakami {
+            background-image: url('./images/takashi-murakami.jpg');
+        }
+
+        .artist-image.david-hockney {
+            background-image: url('./images/david-hockney.jpg');
+        }
+
+        /* Fallback gradients for artist images */
+        .artist-image.kerry-james-marshall.no-image {
+            background: linear-gradient(135deg, #2d2d2d, #666);
+        }
+
+        .artist-image.yayoi-kusama.no-image {
+            background: linear-gradient(135deg, #1a1a1a, #d4af37);
+        }
+
+        .artist-image.ai-weiwei.no-image {
+            background: linear-gradient(135deg, #666, #1a1a1a);
+        }
+
+        .artist-image.kara-walker.no-image {
+            background: linear-gradient(135deg, #2d2d2d, #c41e3a);
+        }
+
+        .artist-image.takashi-murakami.no-image {
+            background: linear-gradient(135deg, #1a1a1a, #666);
+        }
+
+        .artist-image.david-hockney.no-image {
+            background: linear-gradient(135deg, #666, #d4af37);
+        }
+
+        .artist-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 2rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .artist-card:hover .artist-overlay {
+            transform: translateY(0);
+        }
+
+        .artist-content {
+            padding: 2rem;
+        }
+
+        .artist-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--museum-black);
+        }
+
+        .artist-dates {
+            color: var(--met-red);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .artist-bio {
+            color: var(--text-gray);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .artist-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--museum-black);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .artist-link:hover {
+            color: var(--met-red);
+        }
+
+        .artist-link::after {
+            content: ' →';
+            transition: transform 0.3s ease;
+        }
+
+        .artist-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Museum Highlights */
+        .museum-highlights {
+            padding: 6rem 0;
+            background: var(--museum-black);
+            color: var(--warm-white);
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .highlight-item {
+            background: var(--deep-gray);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #333;
+        }
+
+        .highlight-item:hover {
+            background: #333;
+            transform: translateY(-3px);
+        }
+
+        .highlight-number {
+            font-size: 0.8rem;
+            color: var(--met-red);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-description {
+            font-size: 0.9rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 4rem 0;
+            background: var(--light-gray);
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--museum-black);
+        }
+
+        .newsletter p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--border-light);
+            background: var(--warm-white);
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            background: var(--met-red);
+            color: var(--warm-white);
+            border: none;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            background: #a01729;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--museum-black);
+            color: var(--warm-white);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--met-red);
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--met-red);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .exhibitions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .nav-container, .container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* Animation for scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-group">
+                <a href="#" class="met-logo">THE MET</a>
+                <span class="spotlight-text">SPOTLIGHT</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Current Issue</a></li>
+                <li><a href="#exhibitions">Exhibitions</a></li>
+                <li><a href="#artists">Featured Artists</a></li>
+                <li><a href="#highlights">Museum</a></li>
+                <li><a href="#contact">Visit</a></li>
+            </ul>
+            <a href="#" class="visit-btn">Plan Your Visit</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">Spring 2024 Issue</div>
+                <h1 class="hero-title">Art That Transcends Time</h1>
+                <p class="hero-subtitle">
+                    Explore the stories behind The Met's most compelling exhibitions, 
+                    featuring the artists, curators, and cultural movements that shape our understanding of art.
+                </p>
+                <a href="#exhibitions" class="hero-cta">Explore Current Exhibitions</a>
+            </div>
+            <div class="hero-image"></div>
+        </div>
+    </section>
+
+    <!-- Current Exhibitions -->
+    <section id="exhibitions" class="current-exhibitions">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Current Exhibitions</h2>
+                <p class="section-subtitle">
+                    Discover the exceptional exhibitions currently on view at The Met, 
+                    each offering unique insights into artistic expression across cultures and centuries.
+                </p>
+            </div>
+            
+            <div class="exhibitions-grid">
+                <article class="exhibition-card fade-in" onclick="openExhibition('van-gogh')">
+                    <div class="exhibition-image van-gogh">
+                        <div class="exhibition-dates">Mar 15 - Jun 30, 2024</div>
+                    </div>
+                    <div class="exhibition-content">
+                        <h3 class="exhibition-title">Van Gogh's Cypresses</h3>
+                        <p class="exhibition-artist">Vincent van Gogh</p>
+                        <p class="exhibition-description">
+                            The first exhibition devoted to Van Gogh's iconic cypress tree paintings, 
+                            exploring how these towering trees became a symbol of his artistic vision and emotional intensity.
+                        </p>
+                        <div class="exhibition-details">
+                            <span class="exhibition-wing">European Paintings Galleries</span>
+                        </div>
+                        <a href="#" class="exhibition-link">View Exhibition</a>
+                    </div>
+                </article>
+
+                <article class="exhibition-card fade-in" onclick="openExhibition('african-art')">
+                    <div class="exhibition-image african-art">
+                        <div class="exhibition-dates">Feb 1 - Aug 15, 2024</div>
+                    </div>
+                    <div class="exhibition-content">
+                        <h3 class="exhibition-title">Sahel: Art and Empires on the Shores of the Sahara</h3>
+                        <p class="exhibition-artist">Multiple Artists</p>
+                        <p class="exhibition-description">
+                            A groundbreaking exhibition exploring 1,300 years of art from the Sahel region, 
+                            highlighting the sophisticated civilizations that flourished along ancient trade routes.
+                        </p>
+                        <div class="exhibition-details">
+                            <span class="exhibition-wing">Arts of Africa, Oceania & the Americas</span>
+                        </div>
+                        <a href="#" class="exhibition-link">View Exhibition</a>
+                    </div>
+                </article>
+
+                <article class="exhibition-card fade-in" onclick="openExhibition('textile-arts')">
+                    <div class="exhibition-image textile-arts">
+                        <div class="exhibition-dates">Jan 20 - Jul 10, 2024</div>
+                    </div>
+                    <div class="exhibition-content">
+                        <h3 class="exhibition-title">Woven Histories: Textiles and Modern Abstraction</h3>
+                        <p class="exhibition-artist">Various Artists</p>
+                        <p class="exhibition-description">
+                            Examining the dynamic relationship between textile traditions and modern abstract art, 
+                            featuring works by artists who drew inspiration from fiber arts and weaving techniques.
+                        </p>
+                        <div class="exhibition-details">
+                            <span class="exhibition-wing">Modern & Contemporary Art</span>
+                        </div>
+                        <a href="#" class="exhibition-link">View Exhibition</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Artists -->
+    <section id="artists" class="featured-artists">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Featured Artists</h2>
+                <p class="section-subtitle">
+                    Meet the artists whose works are currently on display at The Met, 
+                    each contributing unique perspectives to our understanding of human creativity.
+                </p>
+            </div>
+            
+            <div class="artists-grid">
+                <article class="artist-card fade-in" onclick="openArtist('kerry-james-marshall')">
+                    <div class="artist-image kerry-james-marshall">
+                        <div class="artist-overlay">
+                            <p>"I want to make paintings so beautiful that people want to lick them."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">Kerry James Marshall</h3>
+                        <p class="artist-dates">b. 1955, Birmingham, Alabama</p>
+                        <p class="artist-bio">
+                            Known for his large-scale paintings depicting Black figures in everyday settings, 
+                            Marshall's work addresses the absence of Black subjects in Western art history 
+                            while celebrating African American life and culture.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+
+                <article class="artist-card fade-in" onclick="openArtist('yayoi-kusama')">
+                    <div class="artist-image yayoi-kusama">
+                        <div class="artist-overlay">
+                            <p>"I want to create infinity rooms and polka dot everything."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">Yayoi Kusama</h3>
+                        <p class="artist-dates">b. 1929, Matsumoto, Japan</p>
+                        <p class="artist-bio">
+                            A pioneering artist whose immersive installations and sculptures explore themes of 
+                            repetition, pattern, and infinity. Her iconic polka dots and infinity rooms have 
+                            captivated audiences worldwide.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+
+                <article class="artist-card fade-in" onclick="openArtist('ai-weiwei')">
+                    <div class="artist-image ai-weiwei">
+                        <div class="artist-overlay">
+                            <p>"Art is about raising questions, not providing answers."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">Ai Weiwei</h3>
+                        <p class="artist-dates">b. 1957, Beijing, China</p>
+                        <p class="artist-bio">
+                            Contemporary artist and activist whose work spans sculpture, installation, and 
+                            photography. His pieces often comment on Chinese politics and culture while 
+                            addressing universal themes of freedom and human rights.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+
+                <article class="artist-card fade-in" onclick="openArtist('kara-walker')">
+                    <div class="artist-image kara-walker">
+                        <div class="artist-overlay">
+                            <p>"I use art to make the past speak to the present."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">Kara Walker</h3>
+                        <p class="artist-dates">b. 1969, Stockton, California</p>
+                        <p class="artist-bio">
+                            Known for her provocative silhouette installations, Walker examines race, gender, 
+                            and violence in American history. Her work confronts uncomfortable truths about 
+                            the legacy of slavery and its ongoing impact.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+
+                <article class="artist-card fade-in" onclick="openArtist('takashi-murakami')">
+                    <div class="artist-image takashi-murakami">
+                        <div class="artist-overlay">
+                            <p>"Art is something that makes you breathe with a different kind of happiness."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">Takashi Murakami</h3>
+                        <p class="artist-dates">b. 1962, Tokyo, Japan</p>
+                        <p class="artist-bio">
+                            Contemporary artist who blurs the boundaries between high and low art, 
+                            incorporating elements of anime, manga, and consumer culture into his colorful, 
+                            pop-inspired sculptures and paintings.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+
+                <article class="artist-card fade-in" onclick="openArtist('david-hockney')">
+                    <div class="artist-image david-hockney">
+                        <div class="artist-overlay">
+                            <p>"The moment you cheat for the sake of beauty, you know you're an artist."</p>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <h3 class="artist-name">David Hockney</h3>
+                        <p class="artist-dates">b. 1937, Bradford, England</p>
+                        <p class="artist-bio">
+                            One of the most influential painters of the 20th century, known for his pool paintings, 
+                            photocollages, and stage designs. His work celebrates the beauty of everyday life 
+                            with vibrant colors and innovative techniques.
+                        </p>
+                        <a href="#" class="artist-link">Read Full Profile</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Museum Highlights -->
+    <section id="highlights" class="museum-highlights">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title" style="color: var(--warm-white);">Museum Highlights</h2>
+                <p class="section-subtitle" style="color: #ccc;">
+                    Explore the treasures and stories that make The Metropolitan Museum of Art 
+                    one of the world's most comprehensive and influential cultural institutions.
+                </p>
+            </div>
+            
+            <div class="highlights-grid">
+                <div class="highlight-item fade-in">
+                    <p class="highlight-number">5,000 YEARS</p>
+                    <h3 class="highlight-title">Art History Spanning Millennia</h3>
+                    <p class="highlight-description">From ancient Egyptian artifacts to contemporary masterpieces, our collection represents cultures from around the world across five millennia.</p>
+                </div>
+
+                <div class="highlight-item fade-in">
+                    <p class="highlight-number">2 MILLION</p>
+                    <h3 class="highlight-title">Works in Our Collection</h3>
+                    <p class="highlight-description">Housing one of the world's largest and most comprehensive art collections, with works from every part of the globe and every era of recorded history.</p>
+                </div>
+
+                <div class="highlight-item fade-in">
+                    <p class="highlight-number">17 DEPARTMENTS</p>
+                    <h3 class="highlight-title">Curatorial Expertise</h3>
+                    <p class="highlight-description">Our world-renowned curators and scholars work across diverse departments to bring you exhibitions that illuminate art's role in human culture.</p>
+                </div>
+
+                <div class="highlight-item fade-in">
+                    <p class="highlight-number">7 MILLION</p>
+                    <h3 class="highlight-title">Annual Visitors</h3>
+                    <p class="highlight-description">People from around the world come to experience art that spans cultures and centuries, making The Met a truly global destination.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Stay Connected with The Met</h2>
+            <p>Receive exclusive access to exhibition previews, artist interviews, and behind-the-scenes content from The Metropolitan Museum of Art.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Met Spotlight</h3>
+                    <p>The official digital publication of The Metropolitan Museum of Art, featuring in-depth stories about our exhibitions, collections, and the artists who inspire us.</p>
+                    <p style="margin-top: 1rem;">© 2024 The Metropolitan Museum of Art</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Current Exhibitions</h3>
+                    <p><a href="#">Van Gogh's Cypresses</a></p>
+                    <p><a href="#">Sahel: Art and Empires</a></p>
+                    <p><a href="#">Woven Histories</a></p>
+                    <p><a href="#">View All Exhibitions</a></p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Visit The Met</h3>
+                    <p>1000 Fifth Avenue<br>New York, NY 10028</p>
+                    <p>Phone: (212) 535-7710</p>
+                    <p>Hours: Sun, Tue–Thu: 10–17:00<br>Fri–Sat: 10–21:00</p>
+                    <p><a href="#">Plan Your Visit</a></p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">Facebook</a></p>
+                    <p><a href="#">Twitter</a></p>
+                    <p><a href="#">YouTube</a></p>
+                    <p><a href="#">Member Portal</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>The Metropolitan Museum of Art - Connecting people to creativity, knowledge, and ideas</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(254, 254, 254, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(254, 254, 254, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Exhibition and artist page navigation (placeholder)
+        function openExhibition(exhibitionId) {
+            console.log(`Opening exhibition page for: ${exhibitionId}`);
+            alert(`Exhibition page for "${exhibitionId.replace('-', ' ')}" would open here!\n\nThis would include:\n• Detailed exhibition information\n• Featured artworks gallery\n• Audio tour integration\n• Ticket purchasing`);
+        }
+
+        function openArtist(artistId) {
+            console.log(`Opening artist page for: ${artistId}`);
+            alert(`Artist profile page for "${artistId.replace('-', ' ')}" would open here!\n\nThis would include:\n• Complete biography\n• Works in The Met collection\n• Exhibition history\n• Related articles`);
+        }
+
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for subscribing to The Met Spotlight!\n\nYou\'ll receive our latest exhibition updates and exclusive content.');
+        });
+
+        // Visit button
+        document.querySelector('.visit-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Plan Your Visit feature would include:\n\n• Hours and admission\n• Interactive museum map\n• Current exhibitions\n• Special events calendar\n• Dining and shopping\n• Accessibility information');
+        });
+    </script>
+</body>
+</html>
